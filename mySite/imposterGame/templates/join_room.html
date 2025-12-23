@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}Join Room{% endblock %} 
+{% block content %}
+<h1>Join a Room</h1>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="post" class="mt-3">
+    {% csrf_token %}
+    <div class="mb-3">
+        <input
+            type="text"
+            name="room_id"
+            class="form-control"
+            placeholder="Enter room code"
+            maxlength="8"
+            required
+        />
+    </div>
+    <button class="btn btn-primary">Join</button>
+</form>
+{% endblock %}

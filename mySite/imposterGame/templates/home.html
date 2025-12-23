@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<div class="text-center">
+    <h1 class="mb-4">Imposter Game</h1>
+
+    <div class="d-grid gap-3 col-6 mx-auto">
+        <a href="{% url 'create_room' %}" class="btn btn-primary btn-lg">
+            Create Room
+        </a>
+
+        <a
+            href="{% url 'join_room' %}"
+            class="btn btn-outline-secondary btn-lg"
+        >
+            Join Room
+        </a>
+    </div>
+</div>
+{% endblock %}
