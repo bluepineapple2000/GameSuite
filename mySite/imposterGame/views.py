@@ -180,7 +180,7 @@ def kick_player(request, room_id):
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
                     f"room_{room_id}",
-                    {"type": "player_kicked"}
+                    {"type": "player_kicked", "players":get_players(room_id)}
                 )
                 return redirect("imposterGame:room", room_id=room_id)
             except Player.DoesNotExist:
