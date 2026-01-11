@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<div class="text-center">
+    <h1 class="mb-4">Select Game</h1>
+
+    <div class="d-grid gap-3 col-6 mx-auto">
+        <a href="{% url 'imposterGame:select_name' %}" class="btn btn-primary btn-lg">
+            Imposter Game
+        </a>
+    </div>
+</div>
+{% endblock %}

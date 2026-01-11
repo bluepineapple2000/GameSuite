@@ -1,14 +1,78 @@
-{% extends "base.html" %} {% block title %}Room {{ room.room_id }}{% endblock %}
-{% block content %}
-<h2>Room {{ room.room_id }}</h2>
+{% extends "base.html" %}
+{% block title %}Room {{ room.room_id }}{% endblock %}
 
-<p><strong>Players:</strong> {{ room.players|join:", " }}</p>
+{% block content %}
+<script>
+const roomId = "{{ room.room_id }}";
+let players = [{% for p in players %}"{{ p.name }}",{% endfor %}];
+
+const ws = new WebSocket(`ws://${window.location.host}/ws/room/${roomId}/`);
+
+function updatePlayerList(players) {
+    const ul = document.querySelector("#player-list");
+    ul.innerHTML = "";
+
+    players.forEach(name => {
+        const li = document.createElement("li");
+        li.textContent = name;
+        ul.appendChild(li);
+    });
+}
+
+function reloadPlayerList() {
+    ws.send(JSON.stringify({ event: "request_players" }));
+}
+
+ws.onopen = function () {
+    console.log("Connected to lobby websocket");
+    // Announce yourself
+    ws.send(JSON.stringify({
+        event: "player_joined",
+        player: "{{ player.name }}"
+    }));
+};
+
+ws.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+
+    console.log("Received event:", data);
+
+    if (data.event === "player_joined" || data.event === "player_left" || data.event === "player_kicked") {
+        updatePlayerList(data.players);
+    } else if(data.event === "next_round") {
+        // Reload the page to update roles/words
+        window.location.reload();
+        updatePlayerList(data.players);
+    }
+};
+
+// Initial rendering
+updatePlayerList();
+</script>
+
+
+<h2>Room {{ room.room_id }} - Lobby</h2>
+
+<p><strong>You:</strong> {{ player.name }}</p>
 
 {% if role %}
-<div class="alert alert-info">Your role: <strong>{{ role }}</strong></div>
+<div class="alert alert-info">
+    <strong>Your role/word:</strong> {{ role }}
+</div>
 {% endif %}
 
-<a href="{% url 'start_round' room.room_id %}" class="btn btn-success">
+<p><strong>Players in this room:</strong></p>
+<ul id="player-list">
+</ul>
+
+
+
+<a href="{% url 'imposterGame:start_round' room.room_id %}" class="btn btn-success">
     Start Round
+</a>
+<a href="{% url 'imposterGame:leave_room' room.room_id %}" class="btn btn-success">Leave Room</a>
+
+<a href="{% url 'imposterGame:kick_player' room.room_id %}" class="btn btn-danger">
+    Kick Player
 </a>
 {% endblock %}

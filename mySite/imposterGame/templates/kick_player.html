@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Kick Player{% endblock %}
+
+{% block content %}
+<h2>Kick a Player from Room {{ room.room_id }}</h2>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+{% if players %}
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="player_id" class="form-label">Select Player to Kick:</label>
+        <select name="player_id" id="player_id" class="form-select" required>
+            {% for p in players %}
+                <option value="{{ p.id }}">{{ p.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-danger">Kick Player</button>
+</form>
+{% else %}
+<p>No other players to kick.</p>
+{% endif %}
+
+<a href="{% url 'imposterGame:room' room.room_id %}" class="btn btn-secondary mt-3">Back to Room</a>
+{% endblock %}

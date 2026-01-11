@@ -16,20 +16,37 @@ WORDS = [
     "Robot",
 ]
 
+class Player(models.Model):
+    name = models.CharField(max_length=50)
+    room = models.ForeignKey(
+        "Room",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="players"
+    )
+
+    class Meta:
+        unique_together = ("room", "name")
+
+    def __str__(self):
+        return self.name
+
+
 
 class Room(models.Model):
-    room_id = models.CharField(max_length=8, unique=True)
-    players = models.JSONField(default=list)  # list of player names
-    imposter = models.CharField(max_length=50, blank=True)
+    room_id = models.IntegerField(unique=True)
+    imposter = models.ManyToManyField(Player, blank=True, related_name="imposter_in_rooms")
     word = models.CharField(max_length=50, blank=True)
-
-    def choose_round(self):
-        if not self.players:
-            return
-        self.imposter = random.choice(self.players)
-        self.word = random.choice(WORDS)
-        self.save()
 
     @staticmethod
     def generate_room_id():
-        return uuid.uuid4().hex[:8].upper()
+        room_id = 1
+        while True:
+            if not Room.objects.filter(room_id=room_id).exists():
+                return room_id
+            room_id += 1
+
+    
+
+
