@@ -49,6 +49,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://gamesuite.svc.np.fruck.name",
+]
+
 ROOT_URLCONF = "mySite.urls"
 
 TEMPLATES = [
