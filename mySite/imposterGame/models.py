@@ -1,20 +1,24 @@
 import random
 import uuid
-
+import csv
+import os
 from django.db import models
 
-WORDS = [
-    "Apple",
-    "Bridge",
-    "Castle",
-    "Dragon",
-    "Forest",
-    "Guitar",
-    "Island",
-    "Meteor",
-    "Pirate",
-    "Robot",
-]
+# Load words from word.csv
+def load_words():
+    words = []
+    csv_path = os.path.join(os.path.dirname(__file__), "word.csv")
+    try:
+        with open(csv_path, newline="", encoding="utf-8") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                if row:
+                    words.append(row[0].strip())
+    except Exception:
+        pass
+    return words
+
+WORDS = load_words()
 
 class Player(models.Model):
     name = models.CharField(max_length=50)

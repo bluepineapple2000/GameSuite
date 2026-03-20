@@ -6,7 +6,7 @@
 const roomId = "{{ room.room_id }}";
 let players = [{% for p in players %}"{{ p.name }}",{% endfor %}];
 
-const ws = new WebSocket(`ws://${window.location.host}/ws/room/${roomId}/`);
+const ws = new WebSocket(`wss://${window.location.host}/ws/room/${roomId}/`);
 
 function updatePlayerList(players) {
     const ul = document.querySelector("#player-list");
