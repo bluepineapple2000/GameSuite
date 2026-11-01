@@ -1,0 +1,11 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; line-height: 1.6; }
+body { margin: 0 auto; max-width: 52rem; padding: 1.5rem; }
+nav { border-bottom: 1px solid #888; padding-bottom: 1rem; }
+a { color: light-dark(#174fad, #9fc4ff); }
+main { padding-block: 1.5rem; }
+form { margin-block: 1.5rem; }
+input, select, button { font: inherit; padding: .6rem; max-width: 100%; box-sizing: border-box; }
+input { width: 100%; }
+button { cursor: pointer; }
+blockquote, .role { border-left: .3rem solid #888; padding: 1rem; margin-inline: 0; font-size: 1.3rem; }
+.errorlist, [role="alert"] { color: light-dark(#a21919, #ffabab); }

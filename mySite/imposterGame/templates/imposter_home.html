@@ -6,9 +6,9 @@
 
 
     <div class="d-grid gap-3 col-6 mx-auto">
-        <a href="{% url 'imposterGame:create_room' %}" class="btn btn-primary btn-lg">
-            Create Room
-        </a>
+        <form method="post" action="{% url 'imposterGame:create_room' %}">
+            {% csrf_token %}<button>Create room</button>
+        </form>
 
         <a
             href="{% url 'imposterGame:join_room' %}"

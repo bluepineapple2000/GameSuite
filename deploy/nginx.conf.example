@@ -1,0 +1,45 @@
+# Include inside nginx's http {} block. Replace the domain and certificate paths.
+limit_req_zone $binary_remote_addr zone=games:10m rate=5r/s;
+limit_req_zone $binary_remote_addr zone=generation:10m rate=6r/m;
+limit_conn_zone $binary_remote_addr zone=connections:10m;
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+}
+server {
+    listen 80;
+    server_name games.example.com;
+    return 301 https://games.example.com$request_uri;
+}
+server {
+    listen 443 ssl;
+    server_name games.example.com;
+    ssl_certificate /etc/letsencrypt/live/games.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/games.example.com/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    server_tokens off;
+    client_max_body_size 8k;
+    limit_req zone=games burst=15 nodelay;
+    limit_req_status 429;
+    limit_conn connections 20;
+
+    # Repeat proxy directives here: nginx locations do not inherit sibling settings.
+    location ~ ^/(imposterGame/start-round/[0-9]+/|couplesQuestions/question/)$ {
+        limit_req zone=generation burst=2 nodelay;
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_read_timeout 110s;
+    }
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_read_timeout 110s;
+    }
+}

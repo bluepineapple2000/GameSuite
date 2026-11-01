@@ -1,78 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Room {{ room.room_id }}{% endblock %}
-
 {% block content %}
-<script>
-const roomId = "{{ room.room_id }}";
-let players = [{% for p in players %}"{{ p.name }}",{% endfor %}];
-
-const ws = new WebSocket(`wss://${window.location.host}/ws/room/${roomId}/`);
-
-function updatePlayerList(players) {
-    const ul = document.querySelector("#player-list");
-    ul.innerHTML = "";
-
-    players.forEach(name => {
-        const li = document.createElement("li");
-        li.textContent = name;
-        ul.appendChild(li);
-    });
-}
-
-function reloadPlayerList() {
-    ws.send(JSON.stringify({ event: "request_players" }));
-}
-
-ws.onopen = function () {
-    console.log("Connected to lobby websocket");
-    // Announce yourself
-    ws.send(JSON.stringify({
-        event: "player_joined",
-        player: "{{ player.name }}"
-    }));
-};
-
-ws.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-
-    console.log("Received event:", data);
-
-    if (data.event === "player_joined" || data.event === "player_left" || data.event === "player_kicked") {
-        updatePlayerList(data.players);
-    } else if(data.event === "next_round") {
-        // Reload the page to update roles/words
-        window.location.reload();
-        updatePlayerList(data.players);
-    }
-};
-
-// Initial rendering
-updatePlayerList();
-</script>
-
-
-<h2>Room {{ room.room_id }} - Lobby</h2>
-
-<p><strong>You:</strong> {{ player.name }}</p>
-
-{% if role %}
-<div class="alert alert-info">
-    <strong>Your role/word:</strong> {{ role }}
-</div>
+<section id="lobby" data-room-id="{{ room.room_id }}">
+<h1>Room {{ room.room_id }}</h1>
+<p>Share this invitation code only with people you want to play with.</p>
+<p>You: {{ player.name }}</p>
+{% if role %}<p class="role">Your role/word: <strong>{{ role }}</strong></p>{% endif %}
+<h2>Players</h2>
+<ul>{% for p in players %}<li>{{ p.name }}{% if p.id == room.host_id %} (host){% endif %}</li>{% endfor %}</ul>
+{% if is_host %}
+<form method="post" action="{% url 'imposterGame:start_round' room.room_id %}">
+    {% csrf_token %}{{ form.as_p }}<button>Start next round</button>
+</form>
+<a href="{% url 'imposterGame:kick_player' room.room_id %}">Remove a player</a>
 {% endif %}
-
-<p><strong>Players in this room:</strong></p>
-<ul id="player-list">
-</ul>
-
-
-
-<a href="{% url 'imposterGame:start_round' room.room_id %}" class="btn btn-success">
-    Start Round
-</a>
-<a href="{% url 'imposterGame:leave_room' room.room_id %}" class="btn btn-success">Leave Room</a>
-
-<a href="{% url 'imposterGame:kick_player' room.room_id %}" class="btn btn-danger">
-    Kick Player
-</a>
+<form method="post" action="{% url 'imposterGame:leave_room' room.room_id %}">
+    {% csrf_token %}<button>Leave room</button>
+</form>
+<p id="connection-status" role="status"></p>
+</section>
+<script src="{% static 'lobby.js' %}" defer></script>
 {% endblock %}

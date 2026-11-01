@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Unable to start the round</h1>
+<p role="alert">{{ error }}</p>
+<a href="{% url 'imposterGame:room' room.room_id %}">Return to room</a>
+{% endblock %}

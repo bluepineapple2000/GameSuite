@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Couples Conversations{% endblock %}
+{% block content %}
+<h1>Couples Conversations</h1>
+<p>Take turns listening and answering. You can skip any question. Your spoken answers are never collected.</p>
+<form method="post" action="{% url 'couplesQuestions:question' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Start talking</button>
+</form>
+{% endblock %}
