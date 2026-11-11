@@ -3,10 +3,11 @@ from django import forms
 
 class CategoryForm(forms.Form):
     category = forms.CharField(
+        label="Kategorie (optional)",
         max_length=120,
         required=False,
         strip=True,
-        widget=forms.TextInput(attrs={"placeholder": "e.g. Travel, food, shared dreams"}),
+        widget=forms.TextInput(attrs={"placeholder": "z. B. Reisen, Essen, gemeinsame Träume"}),
     )
 
     def clean_category(self):

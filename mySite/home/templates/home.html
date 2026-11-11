@@ -1,12 +1,29 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<div class="text-center">
-    <h1 class="mb-4">Select Game</h1>
-
-    <div class="d-grid gap-3 col-6 mx-auto">
-        <p><a href="{% url 'couplesQuestions:couples_home' %}">Couples Conversations</a></p>
-        <a href="{% url 'imposterGame:select_name' %}" class="btn btn-primary btn-lg">
-            Imposter Game
-        </a>
-    </div>
-</div>
+{% extends "base.html" %}
+{% block title %}Gamesuite · Deine nächste Spielpause{% endblock %}
+{% block page %}
+<section class="hero">
+ <p class="eyebrow">Zeit für eine Spielpause</p>
+ <h1>Kleine Pause.<br>Großes Spiel.</h1>
+ <p>Zusammen lachen, rätseln und Neues entdecken – eure nächste Spielrunde wartet schon.</p>
+ <a class="button" href="#spiele">Spiele entdecken</a>
+</section>
+<section id="spiele" class="games-section" aria-labelledby="games-title">
+ <div class="section-heading"><h2 id="games-title">Worauf hast du Lust?</h2><p>Zwei Spiele. Eine gute Zeit.</p></div>
+ <div class="game-grid">
+  <article class="game-card">
+   <div class="game-art" aria-hidden="true"><svg width="42" height="42" viewBox="0 0 120 120"><path fill="#38b3ff" d="M23 101V49a37 37 0 0 1 74 0v52L79 90 60 102 41 90Z"/><rect x="35" y="39" width="50" height="26" rx="13" fill="#23354d"/><circle cx="49" cy="52" r="6" fill="white"/><circle cx="71" cy="52" r="6" fill="white"/></svg></div>
+   <span class="game-meta">3–20 Personen · Party &amp; Bluff</span>
+   <h3>Imposter</h3>
+   <p>Alle kennen das geheime Wort. Fast alle. Findet heraus, wer in eurer Runde blufft.</p>
+   <a class="button" href="{% url 'imposterGame:select_name' %}">Imposter spielen</a>
+  </article>
+  <article class="game-card">
+   <div class="game-art" aria-hidden="true"><svg width="42" height="42" viewBox="0 0 120 120"><path fill="#438df5" d="M50 44h47a12 12 0 0 1 12 12v29a12 12 0 0 1-12 12h-6v15L72 97H50a12 12 0 0 1-12-12V56a12 12 0 0 1 12-12Z"/><path fill="#38b3ff" stroke="#edf6ff" stroke-width="4" d="M20 12h55a12 12 0 0 1 12 12v30a12 12 0 0 1-12 12H44L24 82V66h-4A12 12 0 0 1 8 54V24a12 12 0 0 1 12-12Z"/><path fill="white" d="M47 49 31 35c-12-12 5-23 16-11 11-12 28-1 16 11Z"/></svg></div>
+   <span class="game-meta">Zu zweit · Gespräche &amp; Nähe</span>
+   <h3>Couples Conversations</h3>
+   <p>Eine Frage, zwei Perspektiven. Nehmt euch Zeit füreinander und kommt ins Gespräch.</p>
+   <a class="button" href="{% url 'couplesQuestions:couples_home' %}">Gespräch starten</a>
+  </article>
+ </div>
+</section>
 {% endblock %}

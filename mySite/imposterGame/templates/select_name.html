@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Choose your name{% endblock %}
+{% block title %}Imposter · Dein Spielername{% endblock %}
 {% block content %}
-<h1>Choose your name</h1>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button>Continue</button></form>
+<p class="eyebrow">Imposter · 3–20 Personen</p>
+<h1>Wie heißt du?</h1>
+<p>Wähle einen Namen, an dem dich deine Mitspieler erkennen. Danach kannst du eine Runde erstellen oder beitreten.</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button>Weiter zur Lobby</button></form>
 {% endblock %}

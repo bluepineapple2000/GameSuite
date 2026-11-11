@@ -1,6 +1,10 @@
 {% extends "base.html" %}
+{% block title %}Imposter · Raum beitreten{% endblock %}
 {% block content %}
-<h1>Join a room</h1>
+<p class="eyebrow">Imposter</p>
+<h1>Deine Runde wartet.</h1>
+<p>Gib den Einladungscode ein, den du vom Gastgeber bekommen hast.</p>
 {% if error %}<p role="alert">{{ error }}</p>{% endif %}
-<form method="post">{% csrf_token %}{{ form.as_p }}<button>Join</button></form>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button>Raum beitreten</button></form>
+<a href="{% url 'imposterGame:imposter_home' %}">Zurück zur Lobby</a>
 {% endblock %}

@@ -1,14 +1,21 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Natalie's Game Suite{% endblock %}</title>
-    <link href="{% static 'site.css' %}" rel="stylesheet">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#edf6ff">
+ <title>{% block title %}Gamesuite{% endblock %}</title>
+ <link href="{% static 'site.css' %}?v=20261111-2" rel="stylesheet">
 </head>
 <body>
-<nav><a href="{% url 'home' %}">Natalie's Game Suite</a></nav>
-<main>{% block content %}{% endblock %}</main>
+<div class="site-shell">
+<nav class="site-nav" aria-label="Hauptnavigation">
+ <a class="brand" href="{% url 'home' %}"><svg width="36" height="39" viewBox="0 0 48 52" aria-hidden="true"><path fill="#38b3ff" d="M24 1 46 13v25L24 51 2 38V13Z"/><path fill="none" stroke="white" stroke-width="2" d="m2 13 22 13 22-13M24 26v25"/><g fill="white"><ellipse cx="24" cy="9" rx="3" ry="2"/><ellipse cx="14" cy="15" rx="3" ry="2"/><ellipse cx="34" cy="15" rx="3" ry="2"/><ellipse cx="12" cy="32" rx="3" ry="4"/><ellipse cx="32" cy="32" rx="2.5" ry="3.5"/><ellipse cx="40" cy="26" rx="2.5" ry="3.5"/><ellipse cx="32" cy="42" rx="2.5" ry="3.5"/><ellipse cx="40" cy="36" rx="2.5" ry="3.5"/></g></svg>Gamesuite</a>
+ <a class="nav-link" href="{% url 'home' %}#spiele">Alle Spiele</a>
+</nav>
+<main>{% block page %}<section class="play-panel">{% block content %}{% endblock %}</section>{% endblock %}</main>
+<footer class="site-footer">Kleine Pause. Großes Spiel. Gemeinsam mehr Spaß.</footer>
+</div>
 </body>
 </html>

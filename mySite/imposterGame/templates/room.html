@@ -1,22 +1,26 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Room {{ room.room_id }}{% endblock %}
+{% block title %}Imposter · Raum {{ room.room_id }}{% endblock %}
 {% block content %}
 <section id="lobby" data-room-id="{{ room.room_id }}">
-<h1>Room {{ room.room_id }}</h1>
-<p>Share this invitation code only with people you want to play with.</p>
-<p>You: {{ player.name }}</p>
-{% if role %}<p class="role">Your role/word: <strong>{{ role }}</strong></p>{% endif %}
-<h2>Players</h2>
-<ul>{% for p in players %}<li>{{ p.name }}{% if p.id == room.host_id %} (host){% endif %}</li>{% endfor %}</ul>
+<p class="eyebrow">Imposter · Eure Spielrunde</p>
+<h1>Einladungscode <span class="room-code">{{ room.room_id }}</span></h1>
+<p>Teile diesen Code nur mit Personen, mit denen du spielen möchtest.</p>
+<p>Du spielst als <strong>{{ player.name }}</strong>.</p>
+{% if role %}
+<details class="role"><summary>Deine Rolle / dein Wort anzeigen</summary><p><strong>{{ role }}</strong></p></details>
+{% else %}<p class="muted">Sobald der Gastgeber eine Runde startet, findest du hier deine Rolle.</p>{% endif %}
+<h2>Mitspieler</h2>
+<ul class="player-list">{% for p in players %}<li>{{ p.name }}{% if p.id == room.host_id %} · Gastgeber{% endif %}</li>{% endfor %}</ul>
 {% if is_host %}
+<p class="muted">Ihr braucht mindestens drei Personen. Wähle optional eine Kategorie für das nächste geheime Wort.</p>
 <form method="post" action="{% url 'imposterGame:start_round' room.room_id %}">
-    {% csrf_token %}{{ form.as_p }}<button>Start next round</button>
+ {% csrf_token %}{{ form.as_p }}<button>Nächste Runde starten</button>
 </form>
-<a href="{% url 'imposterGame:kick_player' room.room_id %}">Remove a player</a>
-{% endif %}
+<a href="{% url 'imposterGame:kick_player' room.room_id %}">Mitspieler entfernen</a>
+{% else %}<p class="muted">Der Gastgeber startet die nächste Runde.</p>{% endif %}
 <form method="post" action="{% url 'imposterGame:leave_room' room.room_id %}">
-    {% csrf_token %}<button>Leave room</button>
+ {% csrf_token %}<button class="secondary">Raum verlassen</button>
 </form>
 <p id="connection-status" role="status"></p>
 </section>

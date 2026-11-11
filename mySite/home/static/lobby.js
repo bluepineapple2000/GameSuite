@@ -9,6 +9,6 @@ socket.onclose = (event) => {
     if (event.code === 4403) {
         window.location.assign("/imposterGame/");
     } else {
-        document.getElementById("connection-status").textContent = "Lobby disconnected. Refresh to reconnect.";
+        document.getElementById("connection-status").textContent = "Verbindung unterbrochen. Lade die Seite neu, um dich wieder zu verbinden.";
     }
 };

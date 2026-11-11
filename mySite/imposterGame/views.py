@@ -14,11 +14,26 @@ from .models import Player, Room, UsedWord
 
 
 class NameForm(forms.Form):
-    name = forms.CharField(max_length=50, strip=True)
+    name = forms.CharField(
+        label="Dein Name",
+        max_length=50,
+        strip=True,
+        widget=forms.TextInput(attrs={"autocomplete": "nickname", "placeholder": "Dein Spielername"}),
+    )
 
 
 class JoinForm(forms.Form):
-    room_id = forms.IntegerField(min_value=1, max_value=99999999)
+    room_id = forms.IntegerField(
+        label="Einladungscode",
+        min_value=1,
+        max_value=99999999,
+        widget=forms.TextInput(attrs={
+            "inputmode": "numeric",
+            "pattern": "[0-9]{1,8}",
+            "maxlength": "8",
+            "placeholder": "z. B. 12345678",
+        }),
+    )
 
 
 def current_player(request):

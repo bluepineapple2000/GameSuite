@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Kick Player{% endblock %}
+{% block title %}Mitspieler entfernen{% endblock %}
 
 {% block content %}
-<h2>Kick a Player from Room {{ room.room_id }}</h2>
+<h1>Mitspieler entfernen</h1>
+<p>Raum {{ room.room_id }}</p>
 
 {% if error %}
 <div class="alert alert-danger">{{ error }}</div>
@@ -12,18 +13,18 @@
 <form method="post">
     {% csrf_token %}
     <div class="mb-3">
-        <label for="player_id" class="form-label">Select Player to Kick:</label>
+        <label for="player_id" class="form-label">Wen möchtest du entfernen?</label>
         <select name="player_id" id="player_id" class="form-select" required>
             {% for p in players %}
                 <option value="{{ p.id }}">{{ p.name }}</option>
             {% endfor %}
         </select>
     </div>
-    <button type="submit" class="btn btn-danger">Kick Player</button>
+    <button type="submit" class="danger">Mitspieler entfernen</button>
 </form>
 {% else %}
-<p>No other players to kick.</p>
+<p>Es sind keine weiteren Mitspieler im Raum.</p>
 {% endif %}
 
-<a href="{% url 'imposterGame:room' room.room_id %}" class="btn btn-secondary mt-3">Back to Room</a>
+<a href="{% url 'imposterGame:room' room.room_id %}" class="button secondary">Zurück zum Raum</a>
 {% endblock %}

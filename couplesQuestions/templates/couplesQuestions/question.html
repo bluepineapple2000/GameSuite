@@ -1,14 +1,15 @@
 {% extends "base.html" %}
-{% block title %}A question for you both{% endblock %}
+{% block title %}Eine Frage für euch · Gamesuite{% endblock %}
 {% block content %}
-<h1>A question for you both</h1>
+<p class="eyebrow">Couples Conversations</p>
+<h1>Eine Frage für euch.</h1>
 {% if error %}<p role="alert">{{ error }}</p>{% endif %}
 {% if question %}<blockquote>{{ question }}</blockquote>{% endif %}
-<p>Listen with curiosity. Either partner can skip a question.</p>
+<p>Lasst euch Zeit und hört neugierig zu. Ihr könnt jede Frage überspringen.</p>
 <form method="post" action="{% url 'couplesQuestions:question' %}">
-    {% csrf_token %}{{ form.as_p }}<button>Next question</button>
+ {% csrf_token %}{{ form.as_p }}<button>Nächste Frage</button>
 </form>
 <form method="post" action="{% url 'couplesQuestions:reset' %}">
-    {% csrf_token %}<button>New session (clear question history)</button>
+ {% csrf_token %}<button class="secondary">Neu beginnen &amp; Fragenverlauf löschen</button>
 </form>
 {% endblock %}

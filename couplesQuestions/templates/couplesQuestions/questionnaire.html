@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Couples Conversations{% endblock %}
 {% block content %}
-<h1>Couples Conversations</h1>
-<p>Take turns listening and answering. You can skip any question. Your spoken answers are never collected.</p>
+<p class="eyebrow">Zu zweit · Zeit füreinander</p>
+<h1>Ein Gespräch, das verbindet.</h1>
+<p>Hört einander zu und beantwortet die Fragen abwechselnd. Ihr könnt jede Frage überspringen. Eure gesprochenen Antworten werden nicht erfasst.</p>
 <form method="post" action="{% url 'couplesQuestions:question' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button>Start talking</button>
+ {% csrf_token %}{{ form.as_p }}<button>Gespräch starten</button>
 </form>
+<p class="muted">Eine Kategorie ist optional. Zum Beispiel: Reisen, gemeinsame Träume oder Alltag.</p>
 {% endblock %}

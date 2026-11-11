@@ -1,21 +1,11 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
-<div class="text-center">
-    <h1 class="mb-4">Imposter Game</h1>
-
-    <h2 class="mb-3">Hey, {{ player.name }} </h2>
-
-
-    <div class="d-grid gap-3 col-6 mx-auto">
-        <form method="post" action="{% url 'imposterGame:create_room' %}">
-            {% csrf_token %}<button>Create room</button>
-        </form>
-
-        <a
-            href="{% url 'imposterGame:join_room' %}"
-            class="btn btn-outline-secondary btn-lg"
-        >
-            Join Room
-        </a>
-    </div>
-</div>
+{% extends "base.html" %}
+{% block title %}Imposter · Los geht’s{% endblock %}
+{% block content %}
+<p class="eyebrow">Imposter</p>
+<h1>Hey, {{ player.name }}!</h1>
+<p>Ein geheimes Wort. Ein guter Bluff. Erstellt einen Raum und teilt den Einladungscode mit eurer Runde.</p>
+<form method="post" action="{% url 'imposterGame:create_room' %}">
+ {% csrf_token %}<button>Eigenen Raum erstellen</button>
+</form>
+<a href="{% url 'imposterGame:join_room' %}" class="button secondary">Mit Code beitreten</a>
 {% endblock %}
